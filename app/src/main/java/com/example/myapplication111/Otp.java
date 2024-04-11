@@ -1,11 +1,14 @@
 package com.example.myapplication111;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -35,26 +38,37 @@ public class Otp extends AppCompatActivity {
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (editText1.getText().length() == 1 &&
-                        editText2.getText().length() == 1 &&
-                        editText3.getText().length() == 1 &&
-                        editText4.getText().length() == 1 &&
-                        editText5.getText().length() == 1 &&
-                        editText6.getText().length() == 1) {
-                    setNewPasswordButton.setEnabled(true);
-                    setNewPasswordButton.setBackgroundColor(Color.BLUE);
-                } else {
-                    setNewPasswordButton.setEnabled(false);
-                    setNewPasswordButton.setBackgroundColor(Color.GRAY);
-                }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                EditText editText = (EditText) getCurrentFocus();
+                if (editText != null && editText.length() == 1) {
+                    if (editText == editText1) {
+                        editText2.requestFocus();
+                    } else if (editText == editText2) {
+                        editText3.requestFocus();
+                    } else if (editText == editText3) {
+                        editText4.requestFocus();
+                    } else if (editText == editText4) {
+                        editText5.requestFocus();
+                    } else if (editText == editText5) {
+                        editText6.requestFocus();
+                    } else if (editText == editText6) {
+                        // Если введены все символы, скрываем клавиатуру
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(editText6.getWindowToken(), 0);
+                    }
+                }
+
+                // Проверяем, все ли EditText заполнены
+                checkAllEditTextFilled();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         };
 
         editText1.addTextChangedListener(textWatcher);
@@ -67,5 +81,25 @@ public class Otp extends AppCompatActivity {
         // Устанавливаем начальный цвет кнопки и ее доступность
         setNewPasswordButton.setBackgroundColor(Color.GRAY);
         setNewPasswordButton.setEnabled(false);
+    }
+
+    private void checkAllEditTextFilled() {
+        if (!editText1.getText().toString().isEmpty() &&
+                !editText2.getText().toString().isEmpty() &&
+                !editText3.getText().toString().isEmpty() &&
+                !editText4.getText().toString().isEmpty() &&
+                !editText5.getText().toString().isEmpty() &&
+                !editText6.getText().toString().isEmpty()) {
+            setNewPasswordButton.setEnabled(true);
+            setNewPasswordButton.setBackgroundColor(Color.BLUE);
+        } else {
+            setNewPasswordButton.setEnabled(false);
+            setNewPasswordButton.setBackgroundColor(Color.GRAY);
+        }
+    }
+
+    public void OnClick(View v) {
+        Intent intent = new Intent(Otp.this, newpassword.class);
+        startActivity(intent);
     }
 }
