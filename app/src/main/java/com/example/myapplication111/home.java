@@ -33,4 +33,9 @@ public class home extends AppCompatActivity {
         Intent intent = new Intent(home.this, notifications.class);
         startActivity(intent);
     }
+
+    public void OnClick4(View v) {
+        Intent intent = new Intent(home.this, chats.class);
+        startActivity(intent);
+    }
 }
