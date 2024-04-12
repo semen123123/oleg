@@ -1,0 +1,8 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Фон для нажатого состояния -->
+    <item android:state_checked="true" android:state_pressed="true" android:drawable="@color/blue"/>
+    <!-- Фон для ненажатого, но выбранного состояния -->
+    <item android:state_checked="true" android:drawable="@color/white"/>
+    <!-- Фон для ненажатого и не выбранного состояния -->
+    <item android:drawable="@color/white"/>
+</selector>
